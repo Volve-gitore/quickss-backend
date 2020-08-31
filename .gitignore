@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+
+# package lock
+package-lock.json
+
+# nyc test coverage
+.nyc_output
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Compiled binary addons 
+build/Release
+
+# vscode live server
+.vscode
+
+# dot env
+.env

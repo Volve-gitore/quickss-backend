@@ -1,0 +1,41 @@
+{
+  "name": "quickss-backend",
+  "version": "1.0.0",
+  "description": "QuiKss(quick-self-Serve) is an all in one Resto Menu and ordering mobile phone application that allows Restaurant and Hotels' customers to make orders (in &amp; out resto) using their portable smart phone and facilitate respective Restaurant and Hotels to quickly serve customers and keep data for future use",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Volve-gitore/quickss-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Volve-gitore/quickss-backend/issues"
+  },
+  "homepage": "https://github.com/Volve-gitore/quickss-backend#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1"
+  }
+}
