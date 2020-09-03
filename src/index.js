@@ -1,13 +1,23 @@
 import express from 'express';
+import routes from './routes';
+import bodyParser from 'body-parser';
+
 const app = express();
-const port =process.env.PORT || 3000;
-app.get("/", (req, res) => {
-  res.status(200).send("QuicKss app backend!");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(routes);
+
+const PORT = 3000;
+app.get('/', (req, res) => {
+  res.send('QuicKss app backend!');
 });
-app.listen(port, () => {
-  // if (err) {
-  //   return console.error(err);
-  // }
-  return console.log(`server is listening on ${port}`);
+
+app.listen(PORT, (err) => {
+  if (err) {
+    return console.error(err);
+  }
+  return console.log(`server is listening on ${PORT}`);
 });
+
 export default app;
