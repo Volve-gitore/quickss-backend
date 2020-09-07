@@ -4,8 +4,9 @@
   "description": "QuiKss(quick-self-Serve) is an all in one Resto Menu and ordering mobile phone application that allows Restaurant and Hotels' customers to make orders (in &amp; out resto) using their portable smart phone and facilitate respective Restaurant and Hotels to quickly serve customers and keep data for future use",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "repository": {
     "type": "git",
