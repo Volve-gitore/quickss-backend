@@ -10,6 +10,7 @@ const config = {
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
+    logging: false
   },
   test: {
     username: process.env.DB_USERNAME,

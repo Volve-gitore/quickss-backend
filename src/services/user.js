@@ -10,10 +10,10 @@ class UserService {
   /**
    *
    * @param {Object} user
-   * @returns {Object} returns created user
+   * @returns {Object} created user
    */
   static async createUser(userInfo) {
-    const { firstName, lastName, username, email, phoneNo, gender, password, role } = userInfo;
+    const { firstName, lastName, username, email, phoneNo, gender, password } = userInfo;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       firstName,
@@ -23,10 +23,20 @@ class UserService {
       phoneNo,
       gender,
       passkey: hashedPassword,
-      role,
+      role: 'client',
       isVerified: false,
     };
-    const user = await User.create(newUser);
+    const user = (await User.create(newUser)).get({ plain: true });
+    return user;
+  }
+
+  /**
+   *
+   * @param {Object} user
+   * @returns {Object} user
+   */
+  static async getUser(username) {
+    const user = await User.findOne({ raw: true, where: { username: username } });
     return user;
   }
 }

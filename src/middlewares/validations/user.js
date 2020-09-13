@@ -1,6 +1,6 @@
 import joi from 'joi';
 import model from '../../db/models/index';
-import { signupSchema } from './schema/user';
+import { signupSchema, signInSchema } from './schema/user';
 import bcrypt from 'bcrypt';
 const { User } = model;
 
@@ -12,7 +12,6 @@ class UserValidation {
    * @param {object} req
    * @param {object} res
    * @param {object} next
-   * @returns {Object} user schema
    */
   static async signupValidator(req, res, next) {
     try {
@@ -31,21 +30,52 @@ class UserValidation {
         for (let i = 0; i < details.length; i += 1) {
           Errors.push(details[i].message.replace('"', '').replace('"', ''));
         }
-        return res.status(400).json({ error: Errors });
+        return res.status(400).json({ message: Errors });
       }
-      if(user.password !== user.confirmPassword) {
-        Errors.push('Password don\'t match')
-        return res.status(400).json({ error: Errors });
-      };
+      if (user.password !== user.confirmPassword) {
+        Errors.push("Password don't match");
+        return res.status(400).json({ message: Errors });
+      }
 
       const usernameExist = await User.findOne({ where: { username: user.username } });
       if (usernameExist)
         return res.status(409).json({
-          error: 'username already taken, Please choose another!',
+          message: 'username already taken, Please choose another!',
         });
       next();
     } catch (error) {
-      return res.status(500).json({ error: 'server error' });
+      return res.status(500).json({ message: 'server error' });
+    }
+  }
+
+  /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @param {object} next
+   */
+
+  static async signInValidator(req, res, next) {
+    try {
+      const credentials = {
+        username: req.body.username,
+        password: req.body.password,
+      };
+      const checkCredentials = signInSchema.validate(credentials, {
+        abortEarly: false,
+      });
+
+      const Errors = [];
+      if (checkCredentials.error) {
+        const { details } = checkCredentials.error;
+        for (let i = 0; i < details.length; i += 1) {
+          Errors.push(details[i].message.replace('"', '').replace('"', ''));
+        }
+        return res.status(400).json({ message: Errors });
+      }
+      next();
+    } catch (error) {
+      return res.status(500).json({ message: 'server error' });
     }
   }
 }
