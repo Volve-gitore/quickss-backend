@@ -1,5 +1,7 @@
 {
   "exclude": [
-    "test"
+    "tests",
+    "src/db/",
+    "src/index.js"
   ]
 }
