@@ -1,6 +1,7 @@
 # Dependencies
 node_modules
-
+#db configuration
+src\db\config\config
 # package lock
 package-lock.json
 
