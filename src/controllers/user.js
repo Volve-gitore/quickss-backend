@@ -1,5 +1,6 @@
 import TokenHandler from '../helpers/tokenHandler';
 import UserService from '../services/user';
+import bcrypt from 'bcrypt';
 
 class UserManager {
   /**
@@ -12,27 +13,62 @@ class UserManager {
     try {
       const user = await UserService.createUser(req.body);
 
-      const { username, email, phoneNo, role } = user.dataValues;
+      const { passkey, ...userInfo } = user;
       const token = await TokenHandler.generateToken({
-        username,
-        email,
-        phoneNo,
-        role,
+        username: userInfo.username,
+        phoneNo: userInfo.phoneNo,
+        role: userInfo.role,
       });
 
       return res.status(201).json({
         message: 'Thank you for joining us, Please check your phone for verification',
-        user: {
-          username,
-          phoneNo,
-          token,
-        },
+        user: userInfo,
+        token,
       });
     } catch (error) {
       if (error.errors) {
-        return res.status(400).json({ error: error.errors[0].message });
+        return res.status(400).json({ message: error.errors[0].message });
       }
-      return res.status(500).json({ error: 'server error' });
+      return res.status(500).json({ message: 'server error' });
+    }
+  }
+
+  /**
+   * @param {object} req
+   * @param {object} res
+   * @returns {Object} user
+   */
+  static async signIn(req, res) {
+    try {
+      const { username, password } = req.body;
+      const user = await UserService.getUser(username);
+      if (user === null) return res.status(404).json({ message: `${username} not found` });
+
+      if (!user.isVerified)
+        return res.status(401).json({
+          message: 'please check your phone message for verification',
+        });
+
+      if (!bcrypt.compareSync(password, user.passkey))
+        return res.status(401).json({ message: 'incorrect password' });
+
+      const payload = {
+        username: user.username,
+        phoneNo: user.phoneNo,
+        role: user.role,
+      };
+      const token = await TokenHandler.generateToken(payload);
+      const { passkey, ...userInfo } = user;
+
+      return res.status(200).json({
+        message: 'successfully logged in',
+        user: userInfo,
+        token,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'internal server error',
+      });
     }
   }
 }

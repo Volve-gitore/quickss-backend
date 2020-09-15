@@ -7,14 +7,30 @@ export const signupSchema = joi.object().keys({
     .message('please remove spaces between word!')
     .min(4)
     .required()
-    .label('Username'),
-  email: joi.string().email().insensitive().label('Email'),
+    .label('username'),
+  email: joi.string().email().insensitive().label('email'),
   phoneNo: joi.string().min(10).max(12).message('invalid phone number').required(),
   password: joi
     .string()
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
-    .message('must contain atleast 8 characters(upper/lower case, number & symbol)!')
+    .message('password must contain atleast 8 characters(upper/lower case, number & symbol)!')
     .required()
-    .label('Password'),
+    .label('password'),
   confirmPassword: joi.string().required(),
 });
+
+
+export const signInSchema = joi.object().keys({
+  username: joi
+    .string()
+    .regex(/^\S+$/)
+    .message('please remove spaces between word!')
+    .min(4)
+    .required()
+    .label('username'),
+  password: joi
+    .string()
+    .required()
+    .label('password'),
+});
+
