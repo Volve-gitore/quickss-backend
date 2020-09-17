@@ -19,7 +19,6 @@ export const signupSchema = joi.object().keys({
   confirmPassword: joi.string().required(),
 });
 
-
 export const signInSchema = joi.object().keys({
   username: joi
     .string()
@@ -28,9 +27,21 @@ export const signInSchema = joi.object().keys({
     .min(4)
     .required()
     .label('username'),
-  password: joi
-    .string()
-    .required()
-    .label('password'),
+  password: joi.string().required().label('password'),
 });
 
+export const passwordForgotSchema = joi.object().keys({
+  userAccount: joi.string().required(),
+});
+
+export const passwordResetSchema = joi.object().keys({
+  password: joi
+    .string()
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
+    .message('password must contain atleast 8 characters(upper/lower case, number & symbol)!')
+    .required()
+    .label('password'),
+  confirmPassword: joi.string().required(),
+  usercode: joi.string().required(),
+
+});
