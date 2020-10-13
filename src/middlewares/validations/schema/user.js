@@ -24,7 +24,7 @@ export const signInSchema = joi.object().keys({
   username: joi
     .string()
     .regex(/^\S+$/)
-    .message('please remove spaces between word!')
+    .message('please remove spaces!')
     .min(4)
     .required()
     .label('username'),

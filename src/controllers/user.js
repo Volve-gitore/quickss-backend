@@ -21,15 +21,15 @@ class UserManager {
       });
 
       return res.status(201).json({
-        message: 'Thank you for joining us, Please check your phone for verification',
+        message: 'thank you for joining us, Please check your phone for verification',
         user: userInfo,
         token,
       });
     } catch (error) {
       if (error.errors) {
-        return res.status(400).json({ message: error.errors[0].message });
+        return res.status(400).json({ error: error.errors[0].message });
       }
-      return res.status(500).json({ message: 'server error' });
+      return res.status(500).json({ error: 'server error' });
     }
   }
 
@@ -41,16 +41,16 @@ class UserManager {
   static async signIn(req, res) {
     try {
       const { username, password } = req.body;
-      const user = await UserService.getUser(username);
-      if (user === null) return res.status(404).json({ message: `${username} not found` });
+      const user = await UserService.getUser(username.trim());
+      if (user === null) return res.status(404).json({ error: `${username} not found` });
 
       if (!user.isVerified)
         return res.status(401).json({
-          message: 'please check your phone message for verification',
+          error: 'account not verified, please check your phone message for verification',
         });
 
       if (!bcrypt.compareSync(password, user.passkey))
-        return res.status(401).json({ message: 'incorrect password' });
+        return res.status(401).json({ error: 'incorrect password' });
 
       const payload = {
         username: user.username,
@@ -67,7 +67,7 @@ class UserManager {
       });
     } catch (error) {
       return res.status(500).json({
-        message: 'internal server error',
+        error: 'internal server error',
       });
     }
   }
