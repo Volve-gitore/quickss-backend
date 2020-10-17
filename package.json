@@ -7,7 +7,8 @@
     "start": "nodemon --exec babel-node src/index",
     "test-seeds": "yarn sequelize-cli db:seed:undo:all && yarn sequelize-cli db:seed:all",
     "test": "yarn test-seeds && nyc --reporter=text mocha --require @babel/register --require @babel/polyfill ./tests/*.js --timeout 80000 --exit",
-    "coverage": "npm test && nyc report --reporter=text-lcov | coveralls"
+    "coverage": "npm test && nyc report --reporter=text-lcov | coveralls",
+    "create-tables": "sequelize-cli db:migrate"
   },
   "repository": {
     "type": "git",
