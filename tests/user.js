@@ -1,5 +1,5 @@
 import chai from 'chai';
-import index from '../src/index';
+import server from '../src/server';
 import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
@@ -13,18 +13,18 @@ describe('User tests', () => {
   it('should not register a user with an existing username', (done) => {
     const user = {
       username: 'testUser',
-      email: 'testuser2@test.com',
+      email: 'testuser@test.com',
       password: 'Test@Quickss12345!',
       confirmPassword: 'Test@Quickss12345!',
       phoneNo: '0700000002',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/auth/signup')
       .send(user)
       .end((err, res) => {
         res.status.should.equal(409);
-        res.body.message.should.equal('username already taken, Please choose another!');
+        res.body.error.should.equal('username already taken, Please choose another!');
         done();
       });
   });
@@ -37,12 +37,12 @@ describe('User tests', () => {
       phoneNo: '0700000002',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/auth/signup')
       .send(user)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.message.should.equal('email must be unique');
+        res.body.error.should.equal('email must be unique');
         done();
       });
   });
@@ -56,12 +56,12 @@ describe('User tests', () => {
       phoneNo: 'invalid phone number',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/auth/signup')
       .send(user)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.message[0].should.equal('invalid phone number');
+        res.body.error[0].should.equal('invalid phone number');
         done();
       });
   });
@@ -75,12 +75,12 @@ describe('User tests', () => {
       phoneNo: '0700000002',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/auth/signup')
       .send(user)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.message[0].should.equal("Password don't match");
+        res.body.error[0].should.equal("Password don't match");
         done();
       });
   });
@@ -94,7 +94,7 @@ describe('User tests', () => {
       phoneNo: '0700000002',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/auth/signup')
       .send(user)
       .end((err, res) => {
@@ -103,7 +103,7 @@ describe('User tests', () => {
         res.body.user.should.have.property('phoneNo');
         res.body.user.should.have.property('role');
         res.body.should.have.property('token');
-        res.body.message.should.equal('Thank you for joining us, Please check your phone for verification');
+        res.body.message.should.equal('thank you for joining us, Please check your phone for verification');
         done();
       });
   });
@@ -117,29 +117,29 @@ describe('User tests', () => {
       password: '',
     };
     chai
-      .request(index)
-      .get('/api/user/auth/signin')
+      .request(server)
+      .post('/api/user/auth/signin')
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.message[0].should.equal('username is not allowed to be empty');
-        res.body.message[1].should.equal('password is not allowed to be empty');
+        res.body.error[0].should.equal('username is not allowed to be empty');
+        res.body.error[1].should.equal('password is not allowed to be empty');
         done();
       });
   });
 
   it('should not login unregistered user', (done) => {
     const credentials = {
-      username: 'unknown_user',
+      username: 'unknownUser',
       password: 'Test@Quickss12345!',
     };
     chai
-      .request(index)
-      .get('/api/user/auth/signin')
+      .request(server)
+      .post('/api/user/auth/signin')
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(404);
-        res.body.message.should.equal("unknown_user not found");
+        res.body.error.should.equal('unknownUser not found');
         done();
       });
   });
@@ -150,12 +150,12 @@ describe('User tests', () => {
       password: 'Test@Quickss12345!',
     };
     chai
-      .request(index)
-      .get('/api/user/auth/signin')
+      .request(server)
+      .post('/api/user/auth/signin')
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(401);
-        res.body.message.should.equal('please check your phone message for verification');
+        res.body.error.should.equal('account not verified, please check your phone message for verification');
         done();
       });
   });
@@ -166,12 +166,12 @@ describe('User tests', () => {
       password: 'wrong_password',
     };
     chai
-      .request(index)
-      .get('/api/user/auth/signin')
+      .request(server)
+      .post('/api/user/auth/signin')
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(401);
-        res.body.message.should.equal('incorrect password');
+        res.body.error.should.equal('incorrect password');
         done();
       });
   });
@@ -182,8 +182,8 @@ describe('User tests', () => {
       password: 'Test@Quickss12345!',
     };
     chai
-      .request(index)
-      .get('/api/user/auth/signin')
+      .request(server)
+      .post('/api/user/auth/signin')
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(200);
