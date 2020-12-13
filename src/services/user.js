@@ -14,15 +14,11 @@ class UserService {
    * @returns {Object} created user
    */
   static async createUser(userInfo) {
-    const { firstName, lastName, username, email, phoneNo, gender, password } = userInfo;
+    const { fullName, phoneNo, password } = userInfo;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
-      firstName,
-      lastName,
-      username,
-      email,
+      fullName,
       phoneNo,
-      gender,
       passkey: hashedPassword,
       role: 'client',
       isVerified: false,
@@ -36,8 +32,8 @@ class UserService {
    * @param {String} user
    * @returns {Object} user
    */
-  static async getUser(username) {
-    const user = await User.findOne({ raw: true, where: { username: username } });
+  static async getUser(phoneNo) {
+    const user = await User.findOne({ raw: true, where: { phoneNo } });
     return user;
   }
   /**
