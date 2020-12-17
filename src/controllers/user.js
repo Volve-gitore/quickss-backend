@@ -17,7 +17,6 @@ class UserManager {
       const user = await UserService.createUser(req.body);
       const { passkey, ...userInfo } = user;
       const token = await TokenHandler.generateToken({
-        username: userInfo.username,
         phoneNo: userInfo.phoneNo,
         role: userInfo.role,
       });
@@ -28,6 +27,7 @@ class UserManager {
         token,
       });
     } catch (error) {
+      console.log(error);
       if (error.errors) {
         return res.status(400).json({ error: error.errors[0].message });
       }
@@ -42,9 +42,10 @@ class UserManager {
    */
   static async signIn(req, res) {
     try {
-      const { username, password } = req.body;
-      const user = await UserService.getUser(username.trim());
-      if (user === null) return res.status(404).json({ error: `${username} not found` });
+      const { phoneNo, password } = req.body;
+      const user = await UserService.getUser(phoneNo.trim());
+      console.log(phoneNo);
+      if (user === null) return res.status(404).json({ error: `${phoneNo} not found` });
 
       if (!user.isVerified)
         return res.status(401).json({
@@ -55,7 +56,6 @@ class UserManager {
         return res.status(401).json({ error: 'incorrect password' });
 
       const payload = {
-        username: user.username,
         phoneNo: user.phoneNo,
         role: user.role,
       };

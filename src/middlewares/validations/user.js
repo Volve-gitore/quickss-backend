@@ -17,8 +17,7 @@ class UserValidation {
   static async signupValidator(req, res, next) {
     try {
       const user = {
-        username: req.body.username,
-        email: req.body.email,
+        fullName: req.body.fullName,
         phoneNo: req.body.phoneNo,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
@@ -38,10 +37,10 @@ class UserValidation {
         return res.status(400).json({ error: errors });
       }
 
-      const usernameExist = await User.findOne({ where: { username: user.username } });
+      const usernameExist = await User.findOne({ where: { phoneNo: user.phoneNo } });
       if (usernameExist)
         return res.status(409).json({
-          error: 'username already taken, Please choose another!',
+          error: 'phone number has been used before',
         });
       next();
     } catch (error) {
@@ -59,7 +58,7 @@ class UserValidation {
   static async signInValidator(req, res, next) {
     try {
       const credentials = {
-        username: req.body.username.trim(),
+        phoneNo: req.body.phoneNo.trim(),
         password: req.body.password,
       };
       const checkCredentials = signInSchema.validate(credentials, {

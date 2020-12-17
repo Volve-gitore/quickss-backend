@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -12,52 +10,36 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
-  User.init({
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: {
-        args: true
-      }
+  }
+  User.init(
+    {
+      fullName: {
+        type: DataTypes.STRING,
+        allowNull: {
+          args: true,
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
+      phoneNo: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: {
+          args: false,
+          message: 'Please enter your phone number',
+        },
+      },
+      gender: DataTypes.STRING,
+      passkey: DataTypes.STRING,
+      role: DataTypes.STRING,
+      isVerified: DataTypes.BOOLEAN,
     },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: {
-        args: true
-      }
+    {
+      sequelize,
+      modelName: 'User',
     },
-    username: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: {
-        args: false,
-        message: 'Please enter your username'
-      }
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: {
-        args: false,
-        message: 'Please enter your email'
-      }
-    },
-    phoneNo: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: {
-        args: false,
-        message: 'Please enter your phone number'
-      }
-    },
-    gender: DataTypes.STRING,
-    passkey: DataTypes.STRING,
-    role: DataTypes.STRING,
-    isVerified: DataTypes.BOOLEAN
-  }, 
-  {
-    sequelize,
-    modelName: 'User',
-  });
+  );
   return User;
 };

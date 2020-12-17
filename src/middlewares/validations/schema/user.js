@@ -1,15 +1,8 @@
 import joi from 'joi';
 
 export const signupSchema = joi.object().keys({
-  username: joi
-    .string()
-    .regex(/^\S+$/)
-    .message('please remove spaces between word!')
-    .min(4)
-    .required()
-    .label('username'),
-  email: joi.string().email().insensitive().label('email'),
-  phoneNo: joi.string().min(10).max(12).message('invalid phone number').required(),
+  fullName: joi.string().min(4).required().label('fullname'),
+  phoneNo: joi.string().min(10).max(15).message('invalid phone number').required(),
   password: joi
     .string()
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
@@ -20,13 +13,13 @@ export const signupSchema = joi.object().keys({
 });
 
 export const signInSchema = joi.object().keys({
-  username: joi
+  phoneNo: joi
     .string()
     .regex(/^\S+$/)
     .message('please remove spaces!')
-    .min(4)
+    .min(9)
     .required()
-    .label('username'),
+    .label('phone number'),
   password: joi.string().required().label('password'),
 });
 
@@ -43,5 +36,4 @@ export const passwordResetSchema = joi.object().keys({
     .label('password'),
   confirmPassword: joi.string().required(),
   usercode: joi.string().required(),
-
 });
