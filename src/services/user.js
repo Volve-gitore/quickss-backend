@@ -21,7 +21,7 @@ class UserService {
       phoneNo,
       passkey: hashedPassword,
       role: 'client',
-      isVerified: false,
+      isVerified: true,
     };
     const user = (await User.create(newUser)).get({ plain: true });
     return user;

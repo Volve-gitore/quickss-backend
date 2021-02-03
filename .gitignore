@@ -14,7 +14,7 @@ package-lock.json
 .eslintcache
 
 # Compiled binary addons 
-build/Release
+build/
 
 # vscode live server
 .vscode

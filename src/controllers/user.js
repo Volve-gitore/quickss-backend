@@ -27,7 +27,6 @@ class UserManager {
         token,
       });
     } catch (error) {
-      console.log(error);
       if (error.errors) {
         return res.status(400).json({ error: error.errors[0].message });
       }
@@ -44,7 +43,6 @@ class UserManager {
     try {
       const { phoneNo, password } = req.body;
       const user = await UserService.getUser(phoneNo.trim());
-      console.log(phoneNo);
       if (user === null) return res.status(404).json({ error: `${phoneNo} not found` });
 
       if (!user.isVerified)
