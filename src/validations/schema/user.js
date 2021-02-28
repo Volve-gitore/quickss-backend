@@ -2,6 +2,7 @@ import joi from 'joi';
 
 export const signupSchema = joi.object().keys({
   fullName: joi.string().min(4).required().label('fullname'),
+  email: joi.string().email(),
   phoneNo: joi.string().min(10).max(15).message('invalid phone number').required(),
   password: joi
     .string()
@@ -9,7 +10,7 @@ export const signupSchema = joi.object().keys({
     .message('password must contain atleast 8 characters(upper/lower case, number & symbol)!')
     .required()
     .label('password'),
-  confirmPassword: joi.string().required(),
+confirmPassword: joi.any().valid(joi.ref('password'))
 });
 
 export const signInSchema = joi.object().keys({

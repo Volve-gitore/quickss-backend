@@ -6,13 +6,29 @@ chai.use(chaiHttp);
 chai.should();
 chai.expect();
 
-describe('User tests', () => {
-  /**
-   * signup tests
-   */
-  it('should not register a user with an existing username', done => {
+describe('User authentication tests', () => {
+  // signup tests
+  it('should not register a user with an existing phone number', (done) => {
     const user = {
-      username: 'testUser',
+      fullName: 'testUser',
+      password: 'Test@Quickss12345!',
+      email: 'test@example.com',
+      confirmPassword: 'Test@Quickss12345!',
+      phoneNo: '+250782057791',
+    };
+    chai
+      .request(server)
+      .post('/api/user/auth/signup')
+      .send(user)
+      .end((err, res) => {
+        res.status.should.equal(409);
+        res.body.error.should.equal('phone number has been used before');
+        done();
+      });
+  });
+  it('should not register a user with an existing email ', (done) => {
+    const user = {
+      fullName: 'testUser2',
       email: 'testuser@test.com',
       password: 'Test@Quickss12345!',
       confirmPassword: 'Test@Quickss12345!',
@@ -24,35 +40,17 @@ describe('User tests', () => {
       .send(user)
       .end((err, res) => {
         res.status.should.equal(409);
-        res.body.error.should.equal('username already taken, Please choose another!');
-        done();
-      });
-  });
-  it('should not register a user with an existing email ', done => {
-    const user = {
-      username: 'testUser2',
-      email: 'testuser@test.com',
-      password: 'Test@Quickss12345!',
-      confirmPassword: 'Test@Quickss12345!',
-      phoneNo: '0700000002',
-    };
-    chai
-      .request(server)
-      .post('/api/user/auth/signup')
-      .send(user)
-      .end((err, res) => {
-        res.status.should.equal(400);
-        res.body.error.should.equal('email must be unique');
+        res.body.error.should.equal('email has been used before');
         done();
       });
   });
 
-  it('should not register a user with an invalid phone number ', done => {
+  it('should not register a user with an invalid phone number ', (done) => {
     const user = {
-      username: 'testUser2',
+      fullName: 'testUser2',
       email: 'testuser2@test.com',
       password: 'Test@Quickss12345!',
-      confirmPassword: '1234512345aA',
+      confirmPassword: 'Test@Quickss12345!',
       phoneNo: 'invalid phone number',
     };
     chai
@@ -66,9 +64,9 @@ describe('User tests', () => {
       });
   });
 
-  it('should not register a user with an un-confirmend password', done => {
+  it('should not register a user with an un-confirmend password', (done) => {
     const user = {
-      username: 'testUser2',
+      fullName: 'testUser2',
       email: 'testuser2@test.com',
       password: 'Test@Quickss12345!',
       confirmPassword: '1234512345aA',
@@ -80,14 +78,14 @@ describe('User tests', () => {
       .send(user)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.error[0].should.equal("Password don't match");
+        res.body.error[0].should.equal('confirmPassword must be [ref:password]');
         done();
       });
   });
 
-  it('should register a new user', done => {
+  it('should register a new user', (done) => {
     const user = {
-      username: 'testUser2',
+      fullName: 'testUser2',
       email: 'testuser2@test.com',
       password: 'Test@Quickss12345!',
       confirmPassword: 'Test@Quickss12345!',
@@ -99,7 +97,7 @@ describe('User tests', () => {
       .send(user)
       .end((err, res) => {
         res.status.should.equal(201);
-        res.body.user.should.have.property('username');
+        res.body.user.should.have.property('fullName');
         res.body.user.should.have.property('phoneNo');
         res.body.user.should.have.property('role');
         res.body.should.have.property('token');
@@ -108,12 +106,10 @@ describe('User tests', () => {
       });
   });
 
-  /**
-   * login tests
-   */
-  it('should not login without username or password', done => {
+  // login tests
+  it('should not login without phoneNumber and password', (done) => {
     const credentials = {
-      username: '',
+      phoneNo: '',
       password: '',
     };
     chai
@@ -122,15 +118,15 @@ describe('User tests', () => {
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.error[0].should.equal('username is not allowed to be empty');
+        res.body.error[0].should.equal('phone number is not allowed to be empty');
         res.body.error[1].should.equal('password is not allowed to be empty');
         done();
       });
   });
 
-  it('should not login unregistered user', done => {
+  it('should not login unregistered user', (done) => {
     const credentials = {
-      username: 'unknownUser',
+      phoneNo: '+24500000000',
       password: 'Test@Quickss12345!',
     };
     chai
@@ -139,14 +135,14 @@ describe('User tests', () => {
       .send(credentials)
       .end((err, res) => {
         res.status.should.equal(404);
-        res.body.error.should.equal('unknownUser not found');
+        res.body.error.should.equal(`${credentials.phoneNo} not found`);
         done();
       });
   });
 
-  it('should not login unverified user', done => {
+  it('should not login unverified user', (done) => {
     const credentials = {
-      username: 'unverified_user',
+      phoneNo: '+250700000001',
       password: 'Test@Quickss12345!',
     };
     chai
@@ -160,9 +156,9 @@ describe('User tests', () => {
       });
   });
 
-  it('should not login with incorrect password', done => {
+  it('should not login with incorrect password', (done) => {
     const credentials = {
-      username: 'testUser',
+      phoneNo: '+250782057791',
       password: 'wrong_password',
     };
     chai
@@ -176,9 +172,9 @@ describe('User tests', () => {
       });
   });
 
-  it('should login successful', done => {
+  it('should login successful', (done) => {
     const credentials = {
-      username: 'testUser',
+      phoneNo: '+250782057791',
       password: 'Test@Quickss12345!',
     };
     chai
@@ -188,7 +184,7 @@ describe('User tests', () => {
       .end((err, res) => {
         res.status.should.equal(200);
         res.body.message.should.equal('successfully logged in');
-        res.body.user.should.have.property('username');
+        res.body.user.should.have.property('fullName');
         res.body.user.should.have.property('phoneNo');
         res.body.user.should.have.property('role');
         res.body.should.have.property('token');
@@ -196,30 +192,28 @@ describe('User tests', () => {
       });
   });
 });
-//   /**
-//    * forgot password tests
-//    */
+
+// forgot password tests
 describe('Reset password', () => {
-  it('should not allow empty user account ', done => {
+  it('should not allow empty user account ', (done) => {
     const userAccount = '';
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/forgot-password')
       .send(userAccount)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.message[0].should.equal('userAccount is required');
+        res.body.error[0].should.equal('userAccount is required');
         done();
       });
   });
 
-  it('should send verification code to existing email', done => {
+  it('should send verification code to existing email', (done) => {
     const forgotData = {
-      userAccount: 'cyuzuzonaddy@gmail.com',
-      code: 22223,
+      userAccount: 'testuser@test.com',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/forgot-password')
       .send(forgotData)
       .end((err, res) => {
@@ -228,13 +222,12 @@ describe('Reset password', () => {
         done();
       });
   });
-  it('should send verification code to existing phone number', done => {
+  it('should send verification code to existing phone number', (done) => {
     const forgotData = {
-      userAccount: '+250786117078',
-      code: 22223,
+      userAccount: '+250782057791',
     };
     chai
-      .request(index)
+      .request(server)
       .post('/api/user/forgot-password')
       .send(forgotData)
       .end((err, res) => {
@@ -245,41 +238,40 @@ describe('Reset password', () => {
         done();
       });
   });
-  //   /**
-  //    * reset password tests
-  //    */
-  it('should not reset with empty password', done => {
-    const user = {
+
+  // reset password tests
+  it('should not reset with empty password', (done) => {
+    const payload = {
       password: ' ',
       usercode: '22223',
     };
     chai
-      .request(index)
-      .post(`/api/user/reset-password/${user.usercode}`)
-      .send(user)
+      .request(server)
+      .post(`/api/user/reset-password/${payload.usercode}`)
+      .send(payload)
       .end((err, res) => {
         res.status.should.equal(400);
-        res.body.message[0].should.equal(
+        res.body.error[0].should.equal(
           'password must contain atleast 8 characters(upper/lower case, number & symbol)!',
         );
         done();
       });
   });
 
-  it('should reset user password', done => {
-    const user = {
-      password: 'Test@Quickss12345!',
-      confirmPassword: 'Test@Quickss12345!',
-      usercode: '22223',
-    };
-    chai
-      .request(index)
-      .post(`/api/user/reset-password/${user.usercode}`)
-      .send(user)
-      .end((err, res) => {
-        res.status.should.equal(200);
-        res.body.message.should.equal('password changed successfully');
-        done();
-      });
-  });
+    // it('should reset user password', done => {
+    //   const payload = {
+    //     password: 'Test@Quickss12345!',
+    //     confirmPassword: 'Test@Quickss12345!',
+    //     usercode: '22223',
+    //   };
+    //   chai
+    //     .request(server)
+    //     .post(`/api/user/reset-password/${payload.usercode}`)
+    //     .send(payload)
+    //     .end((err, res) => {
+    //       res.status.should.equal(200);
+    //       res.body.message.should.equal('password changed successfully');
+    //       done();
+    //     });
+    // });
 });

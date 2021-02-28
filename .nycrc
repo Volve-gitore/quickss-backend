@@ -2,6 +2,7 @@
   "exclude": [
     "tests",
     "src/db/",
-    "src/server.js"
+    "src/server.js",
+    "src/middlewares/cloudinary.js"
   ]
 }

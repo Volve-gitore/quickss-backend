@@ -1,80 +1,68 @@
-import model from '../../db/models/index';
-import { signupSchema, signInSchema } from './schema/user';
+import model from '../db/models/index';
+
+const { Op } = require('sequelize');
+
 const { User } = model;
 
 /**
  *  user validatons
  */
-class UserValidation {
-  /**
-   * @param {object} req
-   * @param {object} res
-   * @param {object} next
-   */
-  static async signupValidator(req, res, next) {
-    try {
-      const user = {
-        username: req.body.username,
-        email: req.body.email,
-        phoneNo: req.body.phoneNo,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword,
-      };
-      const checkUser = signupSchema.validate(user, { abortEarly: false });
-      const errors = [];
-
-      if (checkUser.error) {
-        const { details } = checkUser.error;
-        for (let i = 0; i < details.length; i += 1) {
-          errors.push(details[i].message.replace('"', '').replace('"', ''));
-        }
-        return res.status(400).json({ error: errors });
-      }
-      if (user.password !== user.confirmPassword) {
-        errors.push("Password don't match");
-        return res.status(400).json({ error: errors });
-      }
-
-      const usernameExist = await User.findOne({ where: { username: user.username } });
-      if (usernameExist)
-        return res.status(409).json({
-          error: 'username already taken, Please choose another!',
-        });
-      next();
-    } catch (error) {
-      return res.status(500).json({ error: 'server error' });
-    }
-  }
-
+class UserMiddleware {
   /**
    *
    * @param {object} req
    * @param {object} res
    * @param {object} next
    */
-
-  static async signInValidator(req, res, next) {
+  static async forgotPasswordValidator(req, res, next) {
     try {
-      const credentials = {
-        username: req.body.username.trim(),
-        password: req.body.password,
-      };
-      const checkCredentials = signInSchema.validate(credentials, {
-        abortEarly: false,
+      const { userAccount } = req.body;
+      const userAccountExist = await User.findOne({
+        where: { [Op.or]: [{ email: userAccount }, { phoneNo: userAccount }] },
       });
 
-      const errors = [];
-      if (checkCredentials.error) {
-        const { details } = checkCredentials.error;
-        for (let i = 0; i < details.length; i += 1) {
-          errors.push(details[i].message.replace('"', '').replace('"', ''));
-        }
-        return res.status(400).json({ error: errors });
-      }
+      if (!userAccountExist)
+        return res.status(404).json({
+          message: "account with that information doesn't exist",
+        });
+      req.user = userAccountExist;
       next();
     } catch (error) {
       return res.status(500).json({ error: 'server error' });
     }
   }
+  //**
+  //  *
+  //  * @param {object} req
+  //  * @param {object} res
+  //  * @param {object} next
+  //  */
+  // static async resetPasswordValidator(req, res, next) {
+  //   try {
+  //     const resetPasswordData = {
+  //       password: req.body.password,
+  //       confirmPassword: req.body.confirmPassword,
+  //       usercode: req.params.usercode,
+  //     };
+
+  //     const validateResetPassword = passwordResetSchema.validate(resetPasswordData, { abortEarly: false });
+  //     const errors = [];
+
+  //     if (validateResetPassword.error) {
+  //       for (let i = 0; i < validateResetPassword.error.details.length; i += 1) {
+  //         errors.push(validateResetPassword.error.details[i].message.replace('"', '').replace('"', ''));
+  //       }
+  //       return res.status(400).json({ message: errors });
+  //     }
+
+  //     if (resetPasswordData.password !== resetPasswordData.confirmPassword) {
+  //       errors.push("password doesn't match");
+  //       return res.status(400).json({ message: errors });
+  //     }
+  //     next();
+  //   } catch (error) {
+  //     return res.status(500).json({ message: 'server error' });
+  //   }
+  // }
 }
-export default UserValidation;
+export default UserMiddleware;
