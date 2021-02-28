@@ -22,7 +22,7 @@ module.exports = {
           fullName: 'unverified user',
           email: 'unverified_user@test.com',
           passkey: bcrypt.hashSync('Test@Quickss12345!', 10),
-          phoneNo: '0700000001',
+          phoneNo: '+250700000001',
           isVerified: false,
           role: 'client',
           createdAt: moment.utc().format(),

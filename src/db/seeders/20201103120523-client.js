@@ -4,7 +4,7 @@ const moment = require('moment');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface.bulkInsert(
-      'HotelRestos',
+      'Clients',
       [
         {
           name: 'quickss-hotel',
@@ -22,6 +22,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('HotelRestos', null, {});
+    return queryInterface.bulkDelete('Clients', null, {});
   },
 };

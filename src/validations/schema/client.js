@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-export const hotelRestoSchema = joi.object().keys({
+export const clientSchema = joi.object().keys({
   name: joi.string().min(2).required(),
   category: joi.any().valid('hotel', 'resto'),
   description: joi.string().min(2).required(),

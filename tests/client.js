@@ -7,14 +7,14 @@ chai.use(chaiHttp);
 chai.should();
 chai.expect();
 
-describe('Hotel & Resto tests', () => {
+describe('Client tests', () => {
   /**
    * register hotel test
    */
-  it('should register a hotel or resto', (done) => {
+  it('should register client', (done) => {
     chai
       .request(server)
-      .post('/api/hotel-resto')
+      .post('/api/clients')
       .set('Content-Type', 'application/json')
       .field('name', 'hotel one')
       .field('category', 'hotel')
@@ -30,10 +30,10 @@ describe('Hotel & Resto tests', () => {
       });
   });
 
-  it('should not register a hotel or resto twice', (done) => {
+  it('should not register client twice', (done) => {
     chai
       .request(server)
-      .post('/api/hotel-resto')
+      .post('/api/clients')
       .set('Content-Type', 'application/json')
       .field('name', 'quickss-hotel')
       .field('category', 'hotel')
@@ -44,15 +44,15 @@ describe('Hotel & Resto tests', () => {
       .attach('image', fs.readFileSync(`${__dirname}/mock/sample.jpeg`), 'sample.jpeg')
       .end((err, res) => {
         res.status.should.equal(409);
-        res.body.error.should.equal('hotel already registered');
+        res.body.error.should.equal('client already registered');
         done();
       });
   });
 
-  it('should not register a hotel or resto without a name', (done) => {
+  it('should not register client without providing the "name"', (done) => {
     chai
       .request(server)
-      .post('/api/hotel-resto')
+      .post('/api/clients')
       .set('Content-Type', 'application/json')
       .field('category', 'hotel')
       .field('description', 'Sample text')

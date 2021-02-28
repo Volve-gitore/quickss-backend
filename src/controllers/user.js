@@ -1,6 +1,5 @@
 import TokenHandler from '../helpers/tokenHandler';
 import UserService from '../services/user';
-import { userData } from '../middlewares/validations/user';
 import bcrypt from 'bcrypt';
 
 import { sendVerificationEmail, sendSMS } from '../helpers/sendVerificationEmail';
@@ -14,6 +13,13 @@ class UserManager {
    */
   static async registerUser(req, res) {
     try {
+      const phoneNoExist = await UserService.getUserByPhone(req.body.phoneNo);
+      const emailExist = await UserService.getUserByEmail(req.body.email);
+
+      if (phoneNoExist || emailExist)
+        return res.status(409).json({
+          error: `${phoneNoExist ? 'phone number' : ''}${emailExist ? 'email' : ''} has been used before`,
+        });
       const user = await UserService.createUser(req.body);
       const { passkey, ...userInfo } = user;
       const token = await TokenHandler.generateToken({
@@ -42,7 +48,7 @@ class UserManager {
   static async signIn(req, res) {
     try {
       const { phoneNo, password } = req.body;
-      const user = await UserService.getUser(phoneNo.trim());
+      const user = await UserService.getUserByPhone(phoneNo.trim());
       if (user === null) return res.status(404).json({ error: `${phoneNo} not found` });
 
       if (!user.isVerified)
@@ -81,8 +87,7 @@ class UserManager {
       const { userAccount } = req.body;
       const isEmail = userAccount.includes('@');
       const isPhone = userAccount.startsWith('+');
-      var user = JSON.parse(userData);
-      const generatedCode = await UserService.createVerification(user.id);
+      const generatedCode = await UserService.createVerification(req.user.id);
 
       if (isEmail === true && generatedCode) {
         const resetEmail = sendVerificationEmail(userAccount, generatedCode.code);

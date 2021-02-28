@@ -1,10 +1,10 @@
 import express from 'express';
 import user from './user';
-import hotelResto from "./hotelResto";
+import client from "./client";
 
 const router = express.Router();
 
 router.use('/api/user', user);
-router.use('/api/hotel-resto', hotelResto);
+router.use('/api/clients', client);
 
 export default router;

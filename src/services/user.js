@@ -32,10 +32,21 @@ class UserService {
    * @param {String} user
    * @returns {Object} user
    */
-  static async getUser(phoneNo) {
+  static async getUserByPhone(phoneNo) {
     const user = await User.findOne({ raw: true, where: { phoneNo } });
     return user;
   }
+
+  /**
+   *
+   * @param {String} user
+   * @returns {Object} user
+   */
+  static async getUserByEmail(email) {
+    const user = await User.findOne({ raw: true, where: { email } });
+    return user;
+  }
+
   /**
    *
    * @param {String} user
