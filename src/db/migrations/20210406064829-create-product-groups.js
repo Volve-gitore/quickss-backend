@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('VerificationCodes', {
+    await queryInterface.createTable('ProductGroups', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -9,28 +9,31 @@ module.exports = {
         allowNull: false,
         autoIncrement: false,
       },
-      userID: {
+      groupId: {
         type: Sequelize.UUID,
         allowNull: false,
-        onUpdate: 'cascade',
-        onDelete: 'cascade',
-        references: { model: 'Users', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: { model: 'Groups', key: 'id' },
       },
-      code: {
+      productId: {
+        type: Sequelize.UUID,
         allowNull: false,
-        type: Sequelize.STRING,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: { model: 'Products', key: 'id' },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('VerificationCodes');
-  },
+    await queryInterface.dropTable('ProductGroups');
+  }
 };

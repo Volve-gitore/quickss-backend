@@ -4,13 +4,13 @@ dotenv.config();
 
 const config = {
   development: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
+    username: 'postgres',
+    password: 'root',
     database: 'quickss',
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
-    logging: false
+    // logging: false,
   },
   test: {
     username: process.env.DB_USERNAME,

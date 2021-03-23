@@ -7,4 +7,5 @@ export const clientSchema = joi.object().keys({
   location: joi.string().min(2).required(),
   bouquet: joi.any().valid('basic', 'moderate', 'premium'),
   status: joi.any().valid('active', 'inactive', 'dormant'),
+  images: joi.array()
 });
