@@ -8,11 +8,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+
+      Client.hasMany(models.Type, {
+        foreignKey: 'clientId',
+      });
+      Client.hasMany(models.Group, {
+        foreignKey: 'clientId',
+      });
+      Client.hasMany(models.Category, {
+        foreignKey: 'clientId',
+      });
+      Client.hasMany(models.Product, {
+        foreignKey: 'clientId',
+      });
     }
   }
   Client.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+      },
       name: {
         type: DataTypes.STRING,
         unique: true,
