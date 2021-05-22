@@ -30,6 +30,7 @@ class UserManager {
         userId: userInfo.id,
         phoneNo: userInfo.phoneNo,
         role: role.name,
+        expiresIn: Math.floor(Date.now() / 1000) + 86400
       });
 
       return res.status(201).json({
@@ -69,6 +70,7 @@ class UserManager {
         userId: user.id,
         phoneNo: user.phoneNo,
         role: role.name,
+        expiresIn: Math.floor(Date.now() / 1000) + 86400
       };
       const token = await TokenHandler.generateToken(payload);
       const { password, ...userInfo } = user;
