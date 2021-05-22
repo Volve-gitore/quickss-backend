@@ -4,9 +4,6 @@ node_modules
 # package lock
 package-lock.json
 
-# yarn lock
-yarn.lock
-
 # nyc test coverage
 .nyc_output
 
