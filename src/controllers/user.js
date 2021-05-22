@@ -1,8 +1,11 @@
+import model from '../db/models';
 import TokenHandler from '../helpers/tokenHandler';
 import UserService from '../services/user';
 import bcrypt from 'bcrypt';
 
 import { sendVerificationEmail, sendSMS } from '../helpers/sendVerificationEmail';
+
+const { Role } = model;
 
 class UserManager {
   /**
@@ -21,10 +24,12 @@ class UserManager {
           error: `${phoneNoExist ? 'phone number' : ''}${emailExist ? 'email' : ''} has been used before`,
         });
       const user = await UserService.createUser(req.body);
-      const { passkey, ...userInfo } = user;
+      const { password, ...userInfo } = user;
+      const role = await UserService.getRoleById(user.roleId);
       const token = await TokenHandler.generateToken({
+        userId: userInfo.id,
         phoneNo: userInfo.phoneNo,
-        role: userInfo.role,
+        role: role.name,
       });
 
       return res.status(201).json({
@@ -47,8 +52,7 @@ class UserManager {
    */
   static async signIn(req, res) {
     try {
-      const { phoneNo, password } = req.body;
-      const user = await UserService.getUserByPhone(phoneNo.trim());
+      const user = await UserService.getUserByPhone(req.body.phoneNo.trim());
       if (user === null) return res.status(404).json({ error: `${phoneNo} not found` });
 
       if (!user.isVerified)
@@ -56,15 +60,18 @@ class UserManager {
           error: 'account not verified, please check your phone message for verification',
         });
 
-      if (!bcrypt.compareSync(password, user.passkey))
+      if (!bcrypt.compareSync(req.body.password, user.password))
         return res.status(401).json({ error: 'incorrect password' });
 
+      const role = await UserService.getRoleById(user.roleId);
+
       const payload = {
+        userId: user.id,
         phoneNo: user.phoneNo,
-        role: user.role,
+        role: role.name,
       };
       const token = await TokenHandler.generateToken(payload);
-      const { passkey, ...userInfo } = user;
+      const { password, ...userInfo } = user;
 
       return res.status(200).json({
         message: 'successfully logged in',
