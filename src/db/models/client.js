@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       images: DataTypes.ARRAY(DataTypes.TEXT),
+      contract: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        message: "contract is required"
+      },
       category: {
         type: DataTypes.ENUM,
         values: ['hotel', 'resto'],

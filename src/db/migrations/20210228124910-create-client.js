@@ -16,6 +16,9 @@ module.exports = {
       images: {
         type: Sequelize.ARRAY(Sequelize.TEXT),
       },
+      contract: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+      },
       category: {
         type: Sequelize.ENUM,
         values: ['hotel', 'resto'],
