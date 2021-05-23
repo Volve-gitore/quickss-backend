@@ -10,7 +10,9 @@ export const signupSchema = joi.object().keys({
     .message('password must contain atleast 8 characters(upper/lower case, number & symbol)!')
     .required()
     .label('password'),
-confirmPassword: joi.any().valid(joi.ref('password'))
+  confirmPassword: joi.any().valid(joi.ref('password')),
+  isVerified: joi.boolean().required(),
+  role: joi.string().required(),
 });
 
 export const signInSchema = joi.object().keys({

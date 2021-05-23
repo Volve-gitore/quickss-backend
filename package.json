@@ -45,7 +45,8 @@
     "request": "^2.88.2",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
-    "twilio": "^3.49.1"
+    "twilio": "^3.63.0",
+    "uuidv4": "^6.2.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

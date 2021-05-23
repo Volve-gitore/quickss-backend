@@ -19,7 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       Product.hasMany(models.ProductGroups, {
         foreignKey: 'productId',
       });
-            Product.belongsTo(models.Category, {
+      Product.belongsTo(models.Group, {
+        foreignKey: "groupId",
+        targetKey: "id",
+      });
+      Product.belongsTo(models.Category, {
         foreignKey: "categoryId",
         targetKey: "id",
       });

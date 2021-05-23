@@ -5,11 +5,11 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
    
     return await queryInterface.bulkInsert(
-      'Groups',
+      'Types',
       [
         {
-          id: "27f84d58-6e89-4ebd-ab81-9cbb2ebe3e8f",
-          name: 'lunch',
+          id: "269bb701-9251-40df-bfb4-b135cef9150c",
+          name: 'food',
           clientId:'c93a072d-45c9-432a-b1ca-850a76b53908',
           createdAt: moment.utc().format(),
           updatedAt: moment.utc().format(),
@@ -19,7 +19,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-     await queryInterface.bulkDelete('Groups', null, {});
+     await queryInterface.bulkDelete('Types', null, {});
     
   }
 };

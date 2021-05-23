@@ -7,6 +7,7 @@ module.exports = {
       'Clients',
       [
         {
+          id: "c93a072d-45c9-432a-b1ca-850a76b53908",
           name: 'quickss-hotel',
           category: 'hotel',
           description: 'the best hotel ever',
