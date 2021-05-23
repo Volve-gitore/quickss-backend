@@ -26,16 +26,56 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
       },
-      location: {
-        type: Sequelize.JSONB,
-      },
       bouquet: {
         type: Sequelize.ENUM,
         values: ['basic', 'moderate', 'premium'],
       },
       status: {
         type: Sequelize.ENUM,
-        values: ['active', 'inactive', 'dormant'],
+        values: ['active', 'inactive', 'dormant', 'archived'],
+      },
+      stars: {
+        type: Sequelize.INTEGER,
+      },
+      registrationNumber: {
+        type: Sequelize.STRING,
+        unique: true
+      },
+      province: {
+        type: Sequelize.STRING,
+      },
+      district: {
+        type: Sequelize.STRING,
+      },
+      sector: {
+        type: Sequelize.STRING,
+      },
+      cell: {
+        type: Sequelize.STRING,
+      },
+      village: {
+        type: Sequelize.STRING,
+      },
+      googleMap: {
+        type: Sequelize.STRING,
+      },
+      Email: {
+        type: Sequelize.STRING,
+      },
+      Telephone: {
+        type: Sequelize.INTEGER,
+      },
+      Facebook: {
+        type: Sequelize.STRING,
+      },
+      Instagram: {
+        type: Sequelize.STRING,
+      },
+      LinkedIn: {
+        type: Sequelize.STRING,
+      },
+      Twitter: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

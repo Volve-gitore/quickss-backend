@@ -48,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
         message: 'category must be hotel or resto',
       },
       description: DataTypes.STRING,
-      location: DataTypes.JSONB,
       bouquet: {
         type: DataTypes.ENUM,
         values: ['basic', 'moderate', 'premium'],
@@ -59,12 +58,29 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.ENUM,
-        values: ['active', 'inactive', 'dormant'],
+        values: ['active', 'inactive', 'dormant', 'archived'],
         allowNull: {
           args: false,
           message: 'please provide the status',
         },
       },
+      province: DataTypes.STRING,
+      district: DataTypes.STRING,
+      sector: DataTypes.STRING,
+      cell: DataTypes.STRING,
+      village: DataTypes.STRING,
+      googleMap: DataTypes.STRING,
+      stars: DataTypes.INTEGER,
+      registrationNumber: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
+      Email: DataTypes.STRING,
+      Telephone: DataTypes.INTEGER,
+      Facebook: DataTypes.STRING,
+      Instagram: DataTypes.STRING,
+      LinkedIn: DataTypes.STRING,
+      Twitter: DataTypes.STRING,
     },
     {
       sequelize,

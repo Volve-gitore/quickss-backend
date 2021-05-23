@@ -12,5 +12,9 @@ router.use('*', cloudinaryConfig);
 router.post('/', auth.grantAccess('createOwn', 'hotelResto'), multerUploads, validator(clientSchema), clientController.registerClient);
 router.get('/', clientController.getClients); 
 // router.get('/', auth.grantAccess('readAny', 'hotelResto'), clientController.getClients); 
+router.post('/', multerUploads, validator(clientSchema), clientController.registerClient);
+router.get('/', clientController.getClients);
+router.patch('/archieve/:clientId', clientController.archieveClient);
+router.patch('/:clientId', clientController.updateClient);
 
 export default router;
