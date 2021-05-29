@@ -46,7 +46,6 @@ class productManager {
           });
       }
     } catch (error) {
-      console.log("error ", error);
       return res.status(500).json({
         error: 'Server error',
         

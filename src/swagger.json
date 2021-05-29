@@ -1,0 +1,235 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "QUICKSS API",
+    "description": "Quickss backend project"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/api/user/auth/signin": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Sign In function",
+        "responses": {}
+      }
+    },
+    "/api/user/auth/signup": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Sign Up function",
+        "responses": {}
+      }
+    },
+    "/api/user/forgot-password": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Forgot password",
+        "responses": {}
+      }
+    },
+    "/api/user/reset-password/:usercode": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Reset password",
+        "responses": {}
+      }
+    },
+    "/api/clients/": {
+      "post": {
+        "tags": ["Clients"],
+        "description": "Create client",
+        "responses": {}
+      }
+    },
+    "/api/clients": {
+      "get": {
+        "tags": ["Clients"],
+        "description": "Get clients",
+        "responses": {}
+      }
+    },
+    "/api/type/": {
+      "post": {
+        "tags": ["Type"],
+        "description": "Create Type",
+        "responses": {}
+      }
+    },
+    "/api/type/all/:clientId": {
+      "get": {
+        "tags": ["Type"],
+        "description": "Get All Typies",
+        "responses": {}
+      }
+    },
+    "/api/type/:id/update": {
+      "get": {
+        "tags": ["Type"],
+        "description": "Edit Type",
+        "responses": {}
+      }
+    },
+    "/api/type/:id": {
+      "get": {
+        "tags": ["Type"],
+        "description": "Get One Type",
+        "responses": {}
+      }
+    },
+    "/api/type/:id": {
+      "delete": {
+        "tags": ["Type"],
+        "description": "Delete Type",
+        "responses": {}
+      }
+    },
+    "/api/group/": {
+      "post": {
+        "tags": ["Groups"],
+        "description": "Create group",
+        "responses": {}
+      }
+    },
+    "/api/group/all/:clientId": {
+      "get": {
+        "tags": ["Groups"],
+        "description": "Get all groups",
+        "responses": {}
+      }
+    },
+    "/api/group/:id": {
+      "get": {
+        "tags": ["Groups"],
+        "description": "Get group by ID",
+        "responses": {}
+      }
+    },
+    "/api/group/:id/update": {
+      "get": {
+        "tags": ["Groups"],
+        "description": "Edit group",
+        "responses": {}
+      }
+    },
+    "/api/group/:id": {
+      "delete": {
+        "tags": ["Groups"],
+        "description": "Delete group",
+        "responses": {}
+      }
+    },
+    "/api/category/": {
+      "post": {
+        "tags": ["Categories"],
+        "description": "Create category",
+        "responses": {}
+      }
+    },
+    "/api/category/all/:clientId": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Get all category",
+        "responses": {}
+      }
+    },
+    "/api/category/:id": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Get category by ID",
+        "responses": {}
+      }
+    },
+    "/api/category/:id/update": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Edit category",
+        "responses": {}
+      }
+    },
+    "/api/category/:id": {
+      "delete": {
+        "tags": ["Categories"],
+        "description": "Delete category",
+        "responses": {}
+      }
+    },
+    "/api/category/:id": {
+      "delete": {
+        "tags": ["Categories"],
+        "description": "Delete category",
+        "responses": {}
+      }
+    },
+    "/api/subCategory/": {
+      "post": {
+        "tags": ["Sub-Categories"],
+        "description": "Create sub-category",
+        "responses": {}
+      }
+    },
+    "/api/subCategory/all/:categoryId": {
+      "get": {
+        "tags": ["Sub-Categories"],
+        "description": "Get all sub-categories",
+        "responses": {}
+      }
+    },
+    "/api/subCategory/:id": {
+      "get": {
+        "tags": ["Sub-Categories"],
+        "description": "Get one sub-category",
+        "responses": {}
+      }
+    },
+    "/api/subCategory/:id/update": {
+      "get": {
+        "tags": ["Sub-Categories"],
+        "description": "Edit sub-category",
+        "responses": {}
+      }
+    },
+    "/api/subCategory/:id": {
+      "delete": {
+        "tags": ["Sub-Categories"],
+        "description": "Delete sub-category",
+        "responses": {}
+      }
+    },
+    "/api/product/": {
+      "post": {
+        "tags": ["Product"],
+        "description": "Create Product",
+        "responses": {}
+      }
+    },
+    "/api/product/all/:clientId": {
+      "get": {
+        "tags": ["Product"],
+        "description": "Get All Products",
+        "responses": {}
+      }
+    },
+    "/api/product/:id/update": {
+      "get": {
+        "tags": ["Product"],
+        "description": "Edit Product",
+        "responses": {}
+      }
+    },
+    "/api/product/:id": {
+      "delete": {
+        "tags": ["Product"],
+        "description": "Delete Product",
+        "responses": {}
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}
