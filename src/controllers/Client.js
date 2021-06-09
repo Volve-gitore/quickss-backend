@@ -32,13 +32,13 @@ class ClientManager {
       const dataBuffer = new Buffer.from(file.buffer);
 
       await fs.writeFileSync(
-        `${__dirname}/uploads/${fileName}`,
+        `${__dirname}/${fileName}`,
         dataBuffer, null
       );
-
+    
       const contract = [
           fileName
-        ]
+      ]
 
       // save client's information to database
       const client = await Client.create({ ...req.body, images, contract });

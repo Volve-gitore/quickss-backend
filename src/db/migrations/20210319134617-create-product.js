@@ -29,6 +29,13 @@ module.exports = {
         onDelete: 'CASCADE',
         references: { model: 'Clients', key: 'id' },
       },
+      groupId: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        references: { model: 'Groups', key: 'id' },
+      },
       categoryId: {
         type: Sequelize.UUID,
         allowNull: true,

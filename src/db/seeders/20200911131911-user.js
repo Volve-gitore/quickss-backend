@@ -9,6 +9,7 @@ module.exports = {
       'Users',
       [
         {
+          id: "9e1ce00f-75cd-4f34-8fcc-c05c46d64f4d",
           fullName: 'Test User',
           email: 'testuser@test.com',
           passkey: bcrypt.hashSync('Test@Quickss12345!', 10),
@@ -19,6 +20,7 @@ module.exports = {
           updatedAt: moment.utc().format(),
         },
         {
+          id: "f4e3e874-615b-41dd-a78b-255c1bdb585a",
           fullName: 'unverified user',
           email: 'unverified_user@test.com',
           passkey: bcrypt.hashSync('Test@Quickss12345!', 10),

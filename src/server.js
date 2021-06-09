@@ -17,7 +17,6 @@ app.use(routes);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const PORT = process.env.PORT || 5000;
-
 app.get('/', (req, res) => {
   res.send('QuicKss app backend!');
 });
