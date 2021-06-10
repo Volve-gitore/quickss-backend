@@ -11,16 +11,12 @@ class TypeManager {
   static async createType(req, res) {
     try {
       const { name, clientId } = req.body;
-      console.log('hh')
-
       const typeExist = await Type.findOne({ where: { name: name, clientId: clientId } });
       if (typeExist) {
         return res.status(400).send({
           error: 'Type already exist',
         });
       }
-      console.log('hhhhh')
-
       const type = await Type.create({
         name,
         clientId,
