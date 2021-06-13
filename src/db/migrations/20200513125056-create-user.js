@@ -25,14 +25,25 @@ module.exports = {
       gender: {
         type: Sequelize.STRING,
       },
-      passkey: {
-        type: Sequelize.STRING,
-      },
-      role: {
+      password: {
         type: Sequelize.STRING,
       },
       isVerified: {
         type: Sequelize.BOOLEAN,
+      },
+      roleId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: { model: 'Roles', key: 'id' },
+      },
+      clientId: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: { model: 'Clients', key: 'id' },
       },
       createdAt: {
         allowNull: false,

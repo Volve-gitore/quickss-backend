@@ -13,7 +13,7 @@ class TypeManager {
       const { name, clientId } = req.body;
       const typeExist = await Type.findOne({ where: { name: name, clientId: clientId } });
       if (typeExist) {
-        return res.status(400).send({
+        return res.status(409).send({
           error: 'Type already exist',
         });
       }

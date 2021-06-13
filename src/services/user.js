@@ -2,7 +2,7 @@ import model from '../db/models';
 import bcrypt from 'bcrypt';
 import crypto from 'randombytes';
 
-const { User, VerificationCode } = model;
+const { User, VerificationCode, Role } = model;
 
 /**
  * User service
@@ -14,14 +14,16 @@ class UserService {
    * @returns {Object} created user
    */
   static async createUser(userInfo) {
-    const { fullName, phoneNo, password } = userInfo;
+    const { fullName, phoneNo, password, email, roleId } = userInfo;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       fullName,
       phoneNo,
-      passkey: hashedPassword,
+      password: hashedPassword,
       role: 'client',
       isVerified: true,
+      email, 
+      roleId,
     };
     const user = (await User.create(newUser)).get({ plain: true });
     return user;
@@ -46,6 +48,15 @@ class UserService {
     const user = await User.findOne({ raw: true, where: { email } });
     return user;
   }
+
+  /**
+   * 
+   * @param {*} id 
+   */
+    static async getRoleById(id) {
+      const user = await Role.findOne({ raw: true, where: { id } });
+      return user;
+    }
 
   /**
    *
