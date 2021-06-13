@@ -4,7 +4,7 @@
   "description": "QuiKss(quick-self-Serve) is an all in one Resto Menu and ordering mobile phone application that allows Restaurant and Hotels' customers to make orders (in &amp; out resto) using their portable smart phone and facilitate respective Restaurant and Hotels to quickly serve customers and keep data for future use",
   "main": "server.js",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "yarn install && node build/server.js",
     "start:dev": "nodemon --exec babel-node src/server",
     "build": "babel src --out-dir build && yarn migrate:db && yarn seed:db",
     "seed:db": "yarn sequelize-cli db:seed:undo:all && yarn sequelize-cli db:seed:all",
@@ -51,7 +51,7 @@
     "uuidv4": "^6.2.8"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
+    "@babel/cli": "^7.14.5",
     "@babel/core": "^7.11.4",
     "@babel/node": "^7.10.5",
     "@babel/polyfill": "^7.11.5",
