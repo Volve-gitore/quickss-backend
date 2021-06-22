@@ -5,7 +5,7 @@ dotenv.config();
 const config = {
   development: {
     username: 'postgres',
-    password: 'root',
+    password: 'password',
     database: 'quickss',
     host: '127.0.0.1',
     dialect: 'postgres',
