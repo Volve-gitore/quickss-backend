@@ -9,9 +9,6 @@ ac.grant("customer")
 ac.grant("client")
   .extend("customer")
 
- .createOwn("hotelResto")
- .updateOwn("hotelResto")
-
  .createOwn("group")
  .readOwn("group")
  .updateOwn("group")
@@ -35,6 +32,8 @@ ac.grant("client")
 ac.grant("admin")
  .extend("customer")
 
+ .createAny("hotelResto")
+ .updateAny("hotelResto")
  .createAny("role")
  .readAny("role")
  .updateAny("role")

@@ -9,7 +9,7 @@ import auth from '../middlewares/auth'
 const router = express.Router();
 
 router.use('*', cloudinaryConfig);
-router.post('/', auth.grantAccess('createOwn', 'hotelResto'), multerUploads, validator(clientSchema), clientController.registerClient);
+router.post('/', auth.grantAccess('createAny', 'hotelResto'), multerUploads, validator(clientSchema), clientController.registerClient);
 router.get('/', auth.grantAccess('readAny', 'hotelResto'), clientController.getClients); 
 
 export default router;

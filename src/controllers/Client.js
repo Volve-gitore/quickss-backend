@@ -8,6 +8,8 @@ const { Client } = model;
 
 class ClientManager {
   static async registerClient(req, res) {
+    console.log("req.body", req.body);
+    console.log("contract", req.files);
     try {
       const clientExist = await Client.findOne({ where: { name: req.body.name } });
       // // check if client is already registered
@@ -27,27 +29,28 @@ class ClientManager {
         images.push(uploadedImage.url);
       }
 
-      const file = req.files.contract[0];
-      const fileName = `${Date.now()}-${req.body.name}-${file.originalname}`;
-      const dataBuffer = new Buffer.from(file.buffer);
+      // const file = req.files.contract[0];
+      // const fileName = `${Date.now()}-${req.body.name}-${file.originalname}`;
+      // const dataBuffer = new Buffer.from(file.buffer);
 
-      await fs.writeFileSync(
-        `${__dirname}/${fileName}`,
-        dataBuffer, null
-      );
+      // await fs.writeFileSync(
+      //   `${__dirname}/${fileName}`,
+      //   dataBuffer, null
+      // );
     
-      const contract = [
-          fileName
-      ]
+      // const contract = [
+      //     fileName
+      // ]
 
       // save client's information to database
-      const client = await Client.create({ ...req.body, images, contract });
-
+      // const client = await Client.create({ ...req.body, images, contract });
+      const client = await Client.create({ ...req.body, images });
       if (client)
         return res.status(201).send({
           message: `${req.body.category} added successful`,
         });
     } catch (error) {
+      console.log("reg client error ", error);
       return res.status(500).send({
         error: 'Server error',
         error,
