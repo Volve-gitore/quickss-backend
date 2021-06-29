@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.use('*', cloudinaryConfig);
 router.post('/', auth.grantAccess('createOwn', 'hotelResto'), multerUploads, validator(clientSchema), clientController.registerClient);
-router.get('/', auth.grantAccess('readAny', 'hotelResto'), clientController.getClients); 
+router.get('/', clientController.getClients); 
+// router.get('/', auth.grantAccess('readAny', 'hotelResto'), clientController.getClients); 
 
 export default router;

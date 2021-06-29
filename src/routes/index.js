@@ -12,7 +12,7 @@ import auth from '../middlewares/auth'
 const router = express.Router();
 
 router.use('/api/user', user);
-router.use('/api/clients', auth.allowIfHasToken, client);
+router.use('/api/clients', client);
 router.use('/api/type', auth.allowIfHasToken, type);
 router.use('/api/group', auth.allowIfHasToken, group);
 router.use('/api/category', auth.allowIfHasToken, category);
