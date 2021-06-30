@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
       Client.hasMany(models.Type, {
         foreignKey: 'clientId',
       });
@@ -22,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'clientId',
       });
       Client.hasMany(models.User, {
-        foreignKey: "clientId",
+        foreignKey: 'clientId',
       });
     }
   }
@@ -40,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       images: DataTypes.ARRAY(DataTypes.TEXT),
       contract: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
-        message: "contract is required"
+        message: 'contract is required',
       },
       category: {
         type: DataTypes.ENUM,
@@ -75,12 +74,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique: true,
       },
-      Email: DataTypes.STRING,
-      Telephone: DataTypes.INTEGER,
-      Facebook: DataTypes.STRING,
-      Instagram: DataTypes.STRING,
-      LinkedIn: DataTypes.STRING,
-      Twitter: DataTypes.STRING,
+      email: DataTypes.STRING,
+      telephone: DataTypes.INTEGER,
+      facebook: DataTypes.STRING,
+      instagram: DataTypes.STRING,
+      linkedIn: DataTypes.STRING,
+      twitter: DataTypes.STRING,
     },
     {
       sequelize,

@@ -32,7 +32,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ['active', 'inactive', 'dormant', 'archived'],
+        values: ['active', 'archived'],
       },
       stars: {
         type: Sequelize.INTEGER,
@@ -59,22 +59,22 @@ module.exports = {
       googleMap: {
         type: Sequelize.STRING,
       },
-      Email: {
+      email: {
         type: Sequelize.STRING,
       },
-      Telephone: {
+      telephone: {
         type: Sequelize.INTEGER,
       },
-      Facebook: {
+      facebook: {
         type: Sequelize.STRING,
       },
-      Instagram: {
+      instagram: {
         type: Sequelize.STRING,
       },
-      LinkedIn: {
+      linkedIn: {
         type: Sequelize.STRING,
       },
-      Twitter: {
+      twitter: {
         type: Sequelize.STRING,
       },
       createdAt: {
