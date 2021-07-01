@@ -19,6 +19,9 @@ module.exports = {
         onDelete: 'CASCADE',
         references: { model: 'Types', key: 'id' },
       },
+      currency: {
+        type: Sequelize.STRING,
+      },
       price: {
         type: Sequelize.DOUBLE,
       },
@@ -53,7 +56,12 @@ module.exports = {
       flag: {
         type: Sequelize.INTEGER,
       },
-
+      images: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+      },
+      description: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

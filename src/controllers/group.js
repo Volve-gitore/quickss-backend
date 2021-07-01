@@ -5,7 +5,7 @@ const { Group } = model;
 class groupManager {
   /**
    *
-   * @desc Create new group
+   * @desc Create one group
    * @route POST /api/group/
    */
   static async createGroup(req, res) {
@@ -27,6 +27,48 @@ class groupManager {
           message: `${group.name} added successfully`,
         });
     } catch (error) {
+      return res.status(500).send({
+        error: 'Server error',
+      });
+    }
+  }
+
+/**
+ * create bulk groups
+ * @param {*} req 
+ * @param {*} res 
+ */
+  static async createBulkGroup(req, res) {
+    try {
+        const data = req.body;
+        const allGroupExist = await Group.findAll();
+        let foundGroup = null;
+
+        //check if any group exist
+        allGroupExist.forEach((foundElement, i) => {
+          data.forEach(reqElement => {
+            if(reqElement.name === foundElement.name){
+              foundGroup = reqElement.name;
+              
+            }
+          });
+        });
+
+        // save all group
+        if(foundGroup){
+          return res.status(409).send({
+            error: `${foundGroup} already exist`,
+          });
+        } else {
+          await Group.bulkCreate(
+            data
+          );
+          return res.status(201).send({
+            message: `groups added successfully`,
+          });
+        }
+      } catch (error) {
+        console.log("group error ", error);
       return res.status(500).send({
         error: 'Server error',
       });

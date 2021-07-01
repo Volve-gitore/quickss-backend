@@ -6,7 +6,8 @@ import auth from '../middlewares/auth'
 
 const router = express.Router();
 
-router.post('/', auth.grantAccess('createOwn', 'group'), validator(groupCategoryTypeSchema), groupController.createGroup);
+// router.post('/', auth.grantAccess('createOwn', 'group'), validator(groupCategoryTypeSchema), groupController.createGroup);
+router.post('/', auth.grantAccess('createOwn', 'group'), groupController.createBulkGroup);
 router.get('/all/:clientId', auth.grantAccess('readOwn', 'group'), groupController.getAllgroup);
 router.get('/:id', auth.grantAccess('readOwn', 'group'), groupController.getgroupById);
 router.get('/search/one', auth.grantAccess('readOwn', 'group'), groupController.getGroupByName);

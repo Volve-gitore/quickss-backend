@@ -32,6 +32,48 @@ class TypeManager {
     }
   }
 
+     /**
+   * create bulk types
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static async createBulkTypes(req, res) {
+    try {
+        const data = req.body;
+        const allTypeExist = await Type.findAll();
+        let foundType = null;
+
+        //check if any Type exist
+        allTypeExist.forEach((foundElement, i) => {
+          data.forEach(reqElement => {
+            if(reqElement.name === foundElement.name){
+              foundType = reqElement.name;
+              
+            }
+          });
+        });
+
+        // save all Type
+        if(foundType){
+          return res.status(409).send({
+            error: `${foundType} already exist`,
+          });
+        } else {
+          await Type.bulkCreate(
+            data
+          );
+          return res.status(201).send({
+            message: `Types added successfully`,
+          });
+        }
+      } catch (error) {
+        console.log("type errerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr ", error);
+      return res.status(500).send({
+        error: 'Server error',
+      });
+    }
+  }
+
   /**
    *
    * @desc Get all types

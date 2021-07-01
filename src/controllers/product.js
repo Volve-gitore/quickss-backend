@@ -1,6 +1,9 @@
 import model from '../db/models';
 const { Op } = require('sequelize');
 const { Product, ProductGroups } = model;
+import { uploader } from '../middlewares/cloudinary';
+import path from 'path';
+import imageDataURI from 'image-data-uri';
 
 class productManager {
   /**
@@ -13,8 +16,10 @@ class productManager {
       const {
         name,
         type,
+        currency,
         price,
         flag,
+        description,
         clientId,
         groupId,
         categoryId,
@@ -29,14 +34,29 @@ class productManager {
         });
       }
 
+      const images = [];
+
+      for (let image in req.files) {
+        const dataBuffer = new Buffer.from(req.files[image].buffer);
+        const mediaType = path.extname(req.files[image].originalname).toString();
+
+        const imageData = imageDataURI.encode(dataBuffer, mediaType);
+        const uploadedImage = await uploader.upload(imageData);
+        images.push(uploadedImage.url);
+      }
+
       const product = await Product.create({
         name,
         type,
+        currency,
         price,
         flag,
+        description,
+        images,
         clientId,
+        groupId,
         categoryId,
-        subCategoryId,
+        subCategoryId
       });
       if (product) {
         const productGroup = await ProductGroups.create({ productId: product.id, groupId });
@@ -48,7 +68,6 @@ class productManager {
     } catch (error) {
       return res.status(500).json({
         error: 'Server error',
-        
       });
     }
   }

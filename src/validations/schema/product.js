@@ -8,5 +8,8 @@ export const productSchema = joi.object().keys({
   flag: joi.number().required(),
   groupId: joi.string().required(),
   categoryId: joi.string(),
-  subCategoryId: joi.string()
+  subCategoryId: joi.string(),
+  currency: joi.string(),
+  description: joi.string(),
+  images: joi.array()
 });

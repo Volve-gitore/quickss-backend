@@ -46,11 +46,18 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
     },
+    currency: {
+      type: DataTypes.STRING,
+    },
     price: {
       type: DataTypes.DOUBLE,
     },
     flag: {
       type: DataTypes.NUMBER,
+    },
+    images: DataTypes.ARRAY(DataTypes.TEXT),
+    description: {
+      type: DataTypes.TEXT,
     },
   }, {
     sequelize,

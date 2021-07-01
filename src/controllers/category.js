@@ -35,6 +35,48 @@ class categoryManager {
     }
   }
 
+    /**
+   * create bulk groups
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static async createBulkCategory(req, res) {
+    try {
+        const data = req.body;
+        const allCategoryExist = await Category.findAll();
+        let foundCategory = null;
+
+        //check if any Category exist
+        allCategoryExist.forEach((foundElement, i) => {
+          data.forEach(reqElement => {
+            if(reqElement.name === foundElement.name){
+              foundCategory = reqElement.name;
+              
+            }
+          });
+        });
+
+        // save all Category
+        if(foundCategory){
+          return res.status(409).send({
+            error: `${foundCategory} already exist`,
+          });
+        } else {
+          await Category.bulkCreate(
+            data
+          );
+          return res.status(201).send({
+            message: `Categories added successfully`,
+          });
+        }
+      } catch (error) {
+        console.log("Category error ", error);
+      return res.status(500).send({
+        error: 'Server error',
+      });
+    }
+  }
+
   /**
    *
    * @desc Get all categories

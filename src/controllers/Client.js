@@ -8,8 +8,6 @@ const { Client } = model;
 
 class ClientManager {
   static async registerClient(req, res) {
-    console.log("req.body", req.body);
-    console.log("contract", req.files);
     try {
       const clientExist = await Client.findOne({ where: { name: req.body.name } });
       // // check if client is already registered
