@@ -22,7 +22,7 @@ exports.grantAccess = function(action, resource) {
     if (error.errors) {
       return res.status(400).json({ error: error.errors[0].message });
     }
-    return res.status(500).json({ error: 'server error' });
+    return res.status(500).json({ error: error });
   }
  }
 }

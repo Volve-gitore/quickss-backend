@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
       Client.hasMany(models.Type, {
         foreignKey: 'clientId',
       });
@@ -22,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'clientId',
       });
       Client.hasMany(models.User, {
-        foreignKey: "clientId",
+        foreignKey: 'clientId',
       });
     }
   }
@@ -40,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       images: DataTypes.ARRAY(DataTypes.TEXT),
       contract: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
-        message: "contract is required"
+        message: 'contract is required',
       },
       category: {
         type: DataTypes.ENUM,
@@ -48,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
         message: 'category must be hotel or resto',
       },
       description: DataTypes.STRING,
-      location: DataTypes.JSONB,
       bouquet: {
         type: DataTypes.ENUM,
         values: ['basic', 'moderate', 'premium'],
@@ -59,12 +57,29 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.ENUM,
-        values: ['active', 'inactive', 'dormant'],
+        values: ['active', 'inactive', 'dormant', 'archived'],
         allowNull: {
           args: false,
           message: 'please provide the status',
         },
       },
+      province: DataTypes.STRING,
+      district: DataTypes.STRING,
+      sector: DataTypes.STRING,
+      cell: DataTypes.STRING,
+      village: DataTypes.STRING,
+      googleMap: DataTypes.STRING,
+      stars: DataTypes.INTEGER,
+      registrationNumber: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
+      email: DataTypes.STRING,
+      telephone: DataTypes.INTEGER,
+      facebook: DataTypes.STRING,
+      instagram: DataTypes.STRING,
+      linkedIn: DataTypes.STRING,
+      twitter: DataTypes.STRING,
     },
     {
       sequelize,
